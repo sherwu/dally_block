@@ -1,4 +1,65 @@
+/* =============
+ * COLOR PALLETE
+ * =============
+ * light-grey: #F0EBE8;
+ * heather-grey: #D4D0DB;
+ * dark-grey: #A3A0B0;
+ * ocean-blue: #2E3B70;
+ * orange: #F2AC35;
+ * dark-orange: #E2850C;
+ * white: #FFFFFF;
+ */
+
+@import url(http://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900);
+
 html, body {
-  height: 300px;
-  width: 300px;
+  height: 200px;
+  width: 324px;
+  padding: 0px;
+  margin: 0px;
+}
+
+.container {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+  background-color: #2E3B70; /*ocean-blue*/
+  color: #FFFFFF; /*white*/
+  font-family: "Roboto", sans-serif;
+  letter-spacing: 2px;
+}
+
+.active-blocks-header {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  height: 25px;
+  border-bottom: 3px solid #A3A0B0; /*dark-grey*/
+  background-color: #F0EBE8; /*light-grey*/
+  color: #A3A0B0; /*dark-grey*/
+  padding: 3px 10px;
+  text-transform: uppercase;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.active-blocks-header i[class*="fa-caret-"] {
+  font-size: 17px;
+  margin-right: 5px;
+}
+
+input.block-input {
+  border: 0px;
+  border-bottom: 1px solid #FFFFFF; /*white*/
+  background-color: #2E3B80; /*ocean-blue*/
+  color: #FFFFFF;
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+input.block-input:focus {
+  outline: 0px;
 }

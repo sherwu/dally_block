@@ -3,15 +3,27 @@
 <head>
   <title>Dally Block</title>
   <link rel="stylesheet" type="text/css" href="css/popup.css">
+  <link rel="stylesheet" type="text.css" href="css/font-awesome.css">
   <script src="js/jquery-1.11.1.min.js"></script>
   <script src="js/popup.js"></script>
 </head>
 <body>
-  I want to use 
-  <div class="block-sentence">
-    <input type="text" class="block-input block-input-website" placeholder="website name"></input> 
-    for only
-    <input type="text" class="block-input block-input-time" placeholder="time in minutes"></input> per day.
+  <div class="container">
+    <div class="active-blocks-header">
+      <i class="fa fa-caret-right"></i>
+      Active Blocks
+    </div>
+    <div class="current-view-block">
+      Use
+      <div class="block-sentence">
+        <input type="text" class="block-input block-input-website"></input> 
+        for
+        <input type="text" class="block-input block-input-time" size="2" maxlength="2"></input>
+        minutes every 
+        <input type="text" class="block-input block-input-time" size="2" maxlength="2"></input>
+        hours.
+      </div>
+    </div>
   </div>
 </body>
 </html>
