@@ -3,7 +3,8 @@
 <head>
   <title>Dally Block</title>
   <link rel="stylesheet" type="text/css" href="css/popup.css">
-  <link rel="stylesheet" type="text.css" href="css/font-awesome.css">
+  <link rel="stylesheet" type="text/css" href="css/font-awesome.css">
+  <link rel="stylesheet" type="text/css" href="css/animate.css">
   <script src="js/jquery-1.11.1.min.js"></script>
   <script src="js/popup.js"></script>
 </head>
@@ -12,16 +13,39 @@
     <div class="active-blocks-header">
       <i class="fa fa-caret-right"></i>
       Active Blocks
+      <i class="fa fa-exclamation animated tada"></i>
     </div>
+
     <div class="current-view-block">
-      Use
+      <div class="question-icon">
+        <i class="fa fa-question-circle"></i>
+      </div>
       <div class="block-sentence">
-        <input type="text" class="block-input block-input-website"></input> 
-        for
-        <input type="text" class="block-input block-input-time" size="2" maxlength="2"></input>
-        minutes every 
-        <input type="text" class="block-input block-input-time" size="2" maxlength="2"></input>
-        hours.
+        <div class="block-sentence-row-1">
+          <label class="sentence-label">
+            Use
+          </label>
+          <input type="text" class="block-input block-input-website"></input>
+        </div>
+        <div class="block-sentence-row-2">
+          <label class="sentence-label">
+            for &nbsp;
+          </label>
+          <input type="text" class="block-input block-input-minutes" size="2" maxlength="2"></input>
+          <label class="sentence-label">
+            &nbsp; minute<span class="block-input-minutes-s">s</span> every &nbsp;
+          </label>
+          <input type="text" class="block-input block-input-hours" size="2" maxlength="2"></input>
+          <label class="sentence-label">
+            &nbsp; hour<span class="block-input-hours-s">s</span>.
+          </label>
+        </div>
+      </div>
+
+      <div class="activate-button-container">
+        <div class="activate-button">
+          Activate This Block
+        </div>
       </div>
     </div>
   </div>

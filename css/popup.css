@@ -27,22 +27,32 @@ html, body {
   background-color: #2E3B70; /*ocean-blue*/
   color: #FFFFFF; /*white*/
   font-family: "Roboto", sans-serif;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
+/* ================================
+ * STYLING FOR ACTIVE BLOCKS HEADER
+ * ================================
+ */
+
 .active-blocks-header {
-  position: absolute;
+  position: fixed;
+  box-sizing: border-box;
   top: 0px;
   left: 0px;
   right: 0px;
-  height: 25px;
+  height: 35px;
   border-bottom: 3px solid #A3A0B0; /*dark-grey*/
   background-color: #F0EBE8; /*light-grey*/
   color: #A3A0B0; /*dark-grey*/
-  padding: 3px 10px;
+  padding: 5px 10px;
   text-transform: uppercase;
   font-size: 15px;
   line-height: 20px;
+}
+
+.active-blocks-header:hover {
+  cursor: pointer;
 }
 
 .active-blocks-header i[class*="fa-caret-"] {
@@ -50,16 +60,90 @@ html, body {
   margin-right: 5px;
 }
 
+.active-blocks-header i.fa-exclamation {
+  float: right;
+  color: #E2850C; /*dark-orange*/
+  font-size: 21px;
+  -webkit-animation-iteration-count: infinite;
+}
+
+/* =========================
+ * STYLING FOR CURRENT BLOCK
+ * =========================
+ */
+
+.current-view-block {
+  margin-top: 35px;
+}
+
+.question-icon {
+  color: #F2AC35;
+  float: right;
+}
+
+.question-icon:hover {
+  color: #E2850C;
+  cursor: pointer;
+}
+
+.block-sentence {
+  font-size: 15px;
+  padding: 15px 15px 8px 15px;
+}
+
+[class*="block-sentence-row-"] {
+  display: table;
+  width: 100%;
+  margin: 10px 0px;
+}
+
+.sentence-label {
+  display: table-cell;
+  white-space: nowrap;
+}
+
+.website-input-span {
+  display: table-cell;
+}
+
+.block-input-website {
+  display: table-cell;
+  width: 100%;
+}
+
 input.block-input {
   border: 0px;
   border-bottom: 1px solid #FFFFFF; /*white*/
-  background-color: #2E3B80; /*ocean-blue*/
+  background-color: #2E3B70; /*ocean-blue*/
   color: #FFFFFF;
   font-family: "Roboto", sans-serif;
-  font-size: 18px;
+  font-size: 15px;
   letter-spacing: 2px;
 }
 
 input.block-input:focus {
   outline: 0px;
+}
+
+/* ===========================
+ * STYLING FOR ACTIVATE BUTTON
+ * ===========================
+ */
+
+.activate-button-container {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.activate-button {
+  display: inline-block;
+  background-color: #F2AC35; /*orange*/
+  border-bottom: 3px solid #E2850C; /*dark-orange*/
+  padding: 5px 15px;
+  color: #2E3B70; /*ocean-blue*/
+  text-transform: uppercase;
+}
+
+.activate-button:hover {
+  cursor: pointer;
 }
