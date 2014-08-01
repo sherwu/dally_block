@@ -4,6 +4,7 @@
  * light-grey: #F0EBE8;
  * heather-grey: #D4D0DB;
  * dark-grey: #A3A0B0;
+ * black: #363636;
  * ocean-blue: #2E3B70;
  * orange: #F2AC35;
  * dark-orange: #E2850C;
@@ -17,17 +18,17 @@ html, body {
   width: 324px;
   padding: 0px;
   margin: 0px;
+  background-color: #2E3B70; /*ocean-blue*/
 }
 
 .container {
-  box-sizing: border-box;
   height: 100%;
   width: 100%;
-  padding: 10px;
   background-color: #2E3B70; /*ocean-blue*/
   color: #FFFFFF; /*white*/
   font-family: "Roboto", sans-serif;
   letter-spacing: 1px;
+  padding-top: 35px;
 }
 
 /* ================================
@@ -67,28 +68,100 @@ html, body {
   -webkit-animation-iteration-count: infinite;
 }
 
+/* ==============================
+ * STYLING FOR ACTIVE BLOCKS LIST
+ * ==============================
+ */
+
+.active-blocks-list {
+  display: none;
+  width: 100%;
+  height: 200px;
+  background-color: #F0EBE8; /*light-grey*/
+}
+
+.active-block {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  border-bottom: 1px solid #A3A0B0; /*dark-grey*/
+  font-size: 18px;
+  color: #363636; /*black*/
+  letter-spacing: 2px;
+  padding: 5px;
+}
+
+.active-block:hover i {
+  display: block;
+}
+
+.active-block i {
+  display: none;
+  position: absolute;
+  left: 10px;
+  color: #A3A0B0; /*dark-grey*/
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.active-block i:hover {
+  color: #363636; /*black*/
+}
+
+.active-block i.fa-times {
+  top: 7px;
+}
+
+.active-block i.fa-pencil {
+  bottom: 7px;
+}
+
+.active-block-name-label {
+  display: inline-block;
+  padding: 5px 15px 5px 25px;
+  float: left;
+  max-width: 160px;
+  overflow-x: hidden;
+}
+
+.active-block-time-label {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0px;
+  float: right;
+  line-height: 37px;
+  margin-right: 20px;
+}
+
+.active-block-time-label.ready {
+  color: #F2AC35; /*orange*/
+  letter-spacing: 1px;
+}
+
+
 /* =========================
  * STYLING FOR CURRENT BLOCK
  * =========================
  */
 
 .current-view-block {
-  margin-top: 35px;
+  box-sizing: border-box;
+  padding: 5px;
 }
 
 .question-icon {
-  color: #F2AC35;
+  color: #F2AC35; /*orange*/
   float: right;
 }
 
 .question-icon:hover {
-  color: #E2850C;
+  color: #E2850C; /*dark-orange*/
   cursor: pointer;
 }
 
 .block-sentence {
   font-size: 15px;
-  padding: 15px 15px 8px 15px;
+  padding: 30px 15px 20px 15px;
 }
 
 [class*="block-sentence-row-"] {
