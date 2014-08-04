@@ -1,23 +1,43 @@
-// Populate the current active blocks div
+// ================
+// Helper functions
+// ================
 
-chrome.storage.sync.get(null, function(dally_object) {
-  console.log(dally_object);
-  for (var website in dally_object) {
-    console.log(website);
-    var activeBlock = $("<div>").addClass("active-block");
-    var nameLabel = $("<div>").addClass("active-block-name-label").html(website);
-    var timeLabel = $("<div>").addClass("active-block-time-label ready").html("READY TO USE!");
-    var deleteIcon = $("<i>").addClass("fa fa-times");
-    var editIcon = $("<i>").addClass("fa fa-pencil");
+unblockAlert = false;
 
-    activeBlock.append(deleteIcon)
-               .append(editIcon)
-               .append(nameLabel)
-               .append(timeLabel);
-    $("div.active-blocks-list").append(activeBlock);
+function generateActiveBlock(website, dataObject) {
+  var activeBlock = $("<div>").addClass("active-block");
+  var nameLabel = $("<div>").addClass("active-block-name-label").html(website);
+
+  var timeLabelText;
+  var timeLabelClass;
+  if (dataObject["secondsLeft"] > 0) {
+    timeLabelText = "READY TO USE!";
+    timeLabelClass = "ready";
+    unblockAlert = true;
+    console.log("UNBLOCK ALERT TRUE");
+  } else {
+    var unblockTimeInMinutes = (dataObject["unblockTime"] - Date.now()) / 1000 / 60;
+    var hoursLeft = Math.floor(unblockTimeInMinutes / 60);
+    var hoursString = "";
+    if (hoursLeft > 0) {
+      hoursString = hoursLeft.toString() + " h";
+    }
+
+    var minutesLeft = Math.round(unblockTimeInMinutes - (hoursLeft * 60));
+    var minutesString = minutesLeft.toString() + " m";
+
+    timeLabelText = hoursString + " " + minutesString;
+    timeLabelClass = "blocked";
   }
-});
 
+  var timeLabel = $("<div>").addClass("active-block-time-label " + timeLabelClass).html(timeLabelText);
+  var deleteIcon = $("<i>").addClass("fa fa-times");
+  var editIcon = $("<i>").addClass("fa fa-pencil");
+
+  activeBlock.append(deleteIcon).append(editIcon).append(nameLabel).append(timeLabel);
+
+  return activeBlock;
+}
 
 function isSentenceFilled(blockSentence) {
   var filled = true;
@@ -29,8 +49,36 @@ function isSentenceFilled(blockSentence) {
   return filled;
 }
 
+
+// ============
+// Startup code
+// ============
+
+// Populate the current active blocks div and register their event listeners
+
+chrome.storage.sync.get(null, function(dallyObject) {
+  console.log(dallyObject);
+  for (var website in dallyObject) {
+    var activeBlock = generateActiveBlock(website, dallyObject[website]);
+    $("div.active-blocks-list").append(activeBlock);
+  }
+  // Hide the exclamation alert if there isn't a block that's ready.
+  if (!unblockAlert) {
+    console.log("hide it!");
+    $("i.fa-exclamation").hide();
+  }
+});
+
+
+// ====================
+// After page load code
+// ====================
+
+// Event listeners to register after page load
+
 $(function() {
-  $("div.active-blocks-header").click(function() {
+  // Clicking the header opens/closes the active blocks list
+  $("div.active-blocks-header").on("click", function() {
     var header = $(this);
     if (header.hasClass("collapsed")) {
       header.removeClass("collapsed");
@@ -45,7 +93,29 @@ $(function() {
     $("div.active-blocks-list").slideToggle("fast");
   });
 
-  $("input.block-input-minutes").blur(function() {
+  // Clicking the 'x' will delete a block
+  $("div.active-blocks-list").on("click", "i.fa-times", function() {
+    var activeBlock = $(this).closest("div.active-block");
+    var website = activeBlock.find("div.active-block-name-label").html().trim();
+    chrome.storage.sync.remove(website, function() {
+      activeBlock.fadeOut("fast");
+    });
+  });
+
+  // Clicking the 'pencil' will edit a block
+  $("div.active-blocks-list").on("click", "i.fa-pencil", function() {
+    var activeBlock = $(this).closest("div.active-block");
+    var website = activeBlock.find("div.active-block-name-label").text().trim();
+    chrome.storage.sync.get(website, function(dallyObject) {
+      var currentViewBlock = $("div.current-view-block");
+      currentViewBlock.find("input.block-input-website").val(website);
+      currentViewBlock.find("input.block-input-minutes").val(dallyObject[website]["usageMinutes"]).focus().blur();
+      currentViewBlock.find("input.block-input-hours").val(dallyObject[website]["resetHours"]).focus().blur();
+    })
+  });
+
+  // Entering 1 into the minutes time will remove the plural 's'
+  $("input.block-input-minutes").on("blur", function() {
     var input = $(this)
     var pluralString = $("span.block-input-minutes-s");
     if (input.val() === "1" || input.val() === "01") {
@@ -55,7 +125,8 @@ $(function() {
     }
   });
 
-  $("input.block-input-hours").blur(function() {
+  // Entering 1 into the hours time will remove the plural 's'
+  $("input.block-input-hours").on("blur", function() {
     var input = $(this)
     var pluralString = $("span.block-input-hours-s");
     if (input.val() === "1" || input.val() === "01") {
@@ -65,21 +136,29 @@ $(function() {
     }
   });
 
-  $("div.activate-button").click(function() {
+  // Clicking the activate button will start the block.
+  $("div.activate-button").on("click", function() {
     if (isSentenceFilled($("div.block-sentence"))) {
       var website = $("input.block-input-website").val().trim();
       var usageMinutes = $("input.block-input-minutes").val().trim();
       var resetHours = $("input.block-input-hours").val().trim();
       var setObject = {};
       setObject[website] = {"usageMinutes": usageMinutes,
-                            "resetHours": resetHours};
+                            "resetHours": resetHours,
+                            "secondsLeft": usageMinutes * 60,
+                            "unblockTime": -1};
 
-      chrome.storage.sync.set(setObject, function() {console.log("saved!")});
-      chrome.storage.sync.get(website, function(items) {
-        console.log(items);
-      })
+      chrome.storage.sync.set(setObject, function() {
+        var activeBlock = generateActiveBlock(website, setObject);
+        activeBlock.hide();
+        $("div.active-blocks-list").append(activeBlock);
+        activeBlock.fadeIn("fast");
+      });
     } else {
-      chrome.storage.sync.clear();
+      // TODO: expected behavior here?
+      console.log("lolz");
+      //chrome.storage.sync.clear();
     }
   });
+
 });

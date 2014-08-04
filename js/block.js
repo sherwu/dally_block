@@ -1,6 +1,11 @@
 var browserURL = window.location.href;
-console.log("WOW I GOT THE " + browserURL);
 
-if (browserURL.indexOf("facebook.com") >= 0) {
-  //window.location.replace("http://oneplusone.productions");
-}
+chrome.storage.sync.get(null, function(dallyObject) {
+  for (var website in dallyObject) {
+    if (browserURL.indexOf(website) >= 0) {
+      if (dallyObject[website]["secondsLeft"] === 0) {
+        window.location.replace("http://oneplusone.productions");
+      }
+    }
+  }
+});
