@@ -145,7 +145,7 @@ html, body {
   letter-spacing: 1px;
 }
 
-.message-block {
+.active-message {
   padding: 25px 25px 0 25px;
   color: #A3A0B0;
 }

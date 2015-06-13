@@ -4,9 +4,9 @@
 
 unblockAlert = false;
 
-function generateMessageBlock(message) {
-  var messageBlock = $("<div>").addClass("message-block").html(message);
-  return messageBlock;
+function generateMessage(messageContent) {
+  var message = $("<div>").addClass("active-message").html(messageContent);
+  return message;
 }
 
 function generateActiveBlock(website, dataObject) {
@@ -62,12 +62,10 @@ function isSentenceFilled(blockSentence) {
 // Populate the current active blocks div and register their event listeners
 
 chrome.storage.sync.get(null, function(dallyObject) {
-  console.log("dallyObject" + dallyObject);
-  console.log("dallyObjectSize" + Object.keys(dallyObject).length);
   if (Object.keys(dallyObject).length == 0) {
-    console.log("yay");
-    $("div.active-blocks-list").append(generateMessageBlock(
-      "You are currently not blocking any websites! Add a block below to increase your productivity!"));
+    var noBlocksMessage = generateMessage("You are currently not blocking any websites! Add a block below to increase your productivity!");
+    noBlocksMessage.addClass("no-blocks-message");
+    $("div.active-blocks-list").append(noBlocksMessage);
   } else {
     for (var website in dallyObject) {
       var activeBlock = generateActiveBlock(website, dallyObject[website]);
@@ -150,6 +148,7 @@ $(function() {
 
   // Clicking the activate button will start the block.
   $("div.activate-button").on("click", function() {
+    $(".no-blocks-message").hide();
     if (isSentenceFilled($("div.block-sentence"))) {
       var website = $("input.block-input-website").val().trim();
       var usageMinutes = $("input.block-input-minutes").val().trim();
