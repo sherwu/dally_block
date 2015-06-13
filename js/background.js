@@ -1,17 +1,15 @@
 var ping;
 
-function blockCurrentTab() {
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    chrome.tabs.update(tabs[0].id, {url: "http://oneplusone.productions"});
-  });
+function blockTab(tab) {
+  chrome.tabs.update(tab.id, {url: "http://oneplusone.productions"});
 }
 
-function pingIfBlocked(url) {
+function pingIfBlocked(tab) {
   chrome.storage.sync.get(null, function(dallyObject) {
     isBlockedWebsite = false;
     matchedBlockWebsite = "";
     for (var website in dallyObject) {
-      if (url.indexOf(website) >= 0) {
+      if (tab.url.indexOf(website) >= 0) {
         isBlockedWebsite = true;
         matchedBlockWebsite = website;
       }
@@ -24,7 +22,7 @@ function pingIfBlocked(url) {
           if (websiteObject["secondsLeft"] > 0) {
             websiteObject["secondsLeft"] -= 1;
             if (websiteObject["secondsLeft"] === 0) {
-              blockCurrentTab();
+              blockTab(tab);
               var unblockTime = Date.now() + 
                                 websiteObject["resetHours"] * 60 * 60 * 1000 -
                                 websiteObject["usageMinutes"] * 60 * 1000;
@@ -32,7 +30,7 @@ function pingIfBlocked(url) {
               websiteObject["unblockTime"] = unblockTime;
             }
           } else {
-            blockCurrentTab();
+            blockTab(tab);
           }
 
           var newObject = {};
@@ -48,14 +46,14 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
   clearInterval(ping);
   var activeTab = chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     var currentTab = tabs[0];
-    pingIfBlocked(currentTab.url);
+    pingIfBlocked(currentTab);
   });
 });
 
 chrome.tabs.onUpdated.addListener(function(tabID, changeInfo, tab) {
   if (changeInfo.url) {
     clearInterval(ping);
-    pingIfBlocked(tab.url);
+    pingIfBlocked(tab);
   }
 });
 
@@ -63,7 +61,7 @@ chrome.windows.onFocusChanged.addListener(function(windowID) {
   clearInterval(ping);
   var activeTab = chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     var currentTab = tabs[0];
-    pingIfBlocked(currentTab.url);
+    pingIfBlocked(currentTab);
   });
 })
 

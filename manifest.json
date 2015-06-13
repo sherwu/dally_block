@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
 
-  "name": "Dally Block",
+  "name": "Dallyblock",
   "description": "This extension only allows you to visit certain websites once every so often. This helps you slowly 'wean' off a website or service that you are addicted to",
   "version": "0.1",
 
@@ -11,8 +11,14 @@
     "alarms"
   ],
 
+  "icons": {
+    "16": "resources/images/icon16.png",
+    "48": "resources/images/icon48.png",
+    "128": "resources/images/icon128.png"
+  },
+
   "browser_action": {
-    "default_icon": "resources/images/icon.png",
+    "default_icon": "resources/images/icon16.png",
     "default_popup": "popup.html"
   },
 
