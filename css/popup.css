@@ -146,8 +146,8 @@ html, body {
 }
 
 .message-block {
-  background-color: #F2AC35; /*orange*/
-  color: #FFF;
+  padding: 25px 25px 0 25px;
+  color: #A3A0B0;
 }
 
 /* =========================

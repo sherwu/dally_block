@@ -6,6 +6,7 @@ unblockAlert = false;
 
 function generateMessageBlock(message) {
   var messageBlock = $("<div>").addClass("message-block").html(message);
+  return messageBlock;
 }
 
 function generateActiveBlock(website, dataObject) {
@@ -64,6 +65,7 @@ chrome.storage.sync.get(null, function(dallyObject) {
   console.log("dallyObject" + dallyObject);
   console.log("dallyObjectSize" + Object.keys(dallyObject).length);
   if (Object.keys(dallyObject).length == 0) {
+    console.log("yay");
     $("div.active-blocks-list").append(generateMessageBlock(
       "You are currently not blocking any websites! Add a block below to increase your productivity!"));
   } else {
