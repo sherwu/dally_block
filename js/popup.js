@@ -114,10 +114,10 @@ $(function() {
     })
   });
 
-  // Entering 1 into the minutes time will remove the plural 's'
-  $("input.block-input-minutes").on("blur", function() {
+  // Entering 1 into the allow time will remove the plural 's'
+  $("input.block-input-allow-time").on("blur", function() {
     var input = $(this)
-    var pluralString = $("span.block-input-minutes-s");
+    var pluralString = $("span.block-input-allow-unit-s");
     if (input.val() === "1" || input.val() === "01") {
       pluralString.hide();
     } else {
@@ -125,10 +125,10 @@ $(function() {
     }
   });
 
-  // Entering 1 into the hours time will remove the plural 's'
-  $("input.block-input-hours").on("blur", function() {
+  // Entering 1 into the block time will remove the plural 's'
+  $("input.block-input-block-time").on("blur", function() {
     var input = $(this)
-    var pluralString = $("span.block-input-hours-s");
+    var pluralString = $("span.block-input-block-unit-s");
     if (input.val() === "1" || input.val() === "01") {
       pluralString.hide();
     } else {
