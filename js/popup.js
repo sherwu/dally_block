@@ -10,6 +10,7 @@ function generateMessageBlock(message) {
 }
 
 function generateActiveBlock(website, dataObject) {
+  // Given a website string and a dataObject, returns a jQuery DOM element for displaying it.
   var activeBlock = $("<div>").addClass("active-block");
   var nameLabel = $("<div>").addClass("active-block-name-label").html(website);
 
@@ -45,6 +46,7 @@ function generateActiveBlock(website, dataObject) {
 }
 
 function isSentenceFilled(blockSentence) {
+  // Returns whether or not the sentence form is filled in or not.
   var filled = true;
   blockSentence.find("input.block-input").each(function() {
     if ($(this).val() == "") {
@@ -151,15 +153,17 @@ $(function() {
   // Clicking the activate button will start the block.
   $("div.activate-button").on("click", function() {
     if (isSentenceFilled($("div.block-sentence"))) {
+      // Gather the information from the form.
       var website = $("input.block-input-website").val().trim();
       var usageMinutes = $("input.block-input-minutes").val().trim();
       var resetHours = $("input.block-input-hours").val().trim();
       var setObject = {};
-      setObject[website] = {"usageMinutes": usageMinutes,
-                            "resetHours": resetHours,
-                            "secondsLeft": usageMinutes * 60,
-                            "unblockTime": -1};
+      setObject = {"usageMinutes": usageMinutes,
+                   "resetHours": resetHours,
+                   "secondsLeft": usageMinutes * 60,
+                   "unblockTime": -1};
 
+      // Generate the dom element and fade it in.
       chrome.storage.sync.set(setObject, function() {
         var activeBlock = generateActiveBlock(website, setObject);
         activeBlock.hide();
