@@ -4,6 +4,10 @@
 
 unblockAlert = false;
 
+function generateMessageBlock(message) {
+  var messageBlock = $("<div>").addClass("message-block").html(message);
+}
+
 function generateActiveBlock(website, dataObject) {
   var activeBlock = $("<div>").addClass("active-block");
   var nameLabel = $("<div>").addClass("active-block-name-label").html(website);
@@ -57,10 +61,16 @@ function isSentenceFilled(blockSentence) {
 // Populate the current active blocks div and register their event listeners
 
 chrome.storage.sync.get(null, function(dallyObject) {
-  console.log(dallyObject);
-  for (var website in dallyObject) {
-    var activeBlock = generateActiveBlock(website, dallyObject[website]);
-    $("div.active-blocks-list").append(activeBlock);
+  console.log("dallyObject" + dallyObject);
+  console.log("dallyObjectSize" + Object.keys(dallyObject).length);
+  if (Object.keys(dallyObject).length == 0) {
+    $("div.active-blocks-list").append(generateMessageBlock(
+      "You are currently not blocking any websites! Add a block below to increase your productivity!"));
+  } else {
+    for (var website in dallyObject) {
+      var activeBlock = generateActiveBlock(website, dallyObject[website]);
+      $("div.active-blocks-list").append(activeBlock);
+    }
   }
   // Hide the exclamation alert if there isn't a block that's ready.
   if (!unblockAlert) {
@@ -109,8 +119,8 @@ $(function() {
     chrome.storage.sync.get(website, function(dallyObject) {
       var currentViewBlock = $("div.current-view-block");
       currentViewBlock.find("input.block-input-website").val(website);
-      currentViewBlock.find("input.block-input-minutes").val(dallyObject[website]["usageMinutes"]).focus().blur();
-      currentViewBlock.find("input.block-input-hours").val(dallyObject[website]["resetHours"]).focus().blur();
+      currentViewBlock.find("input.block-input-unblock-time").val(dallyObject[website]["usageMinutes"]).focus().blur();
+      currentViewBlock.find("input.block-input-block-time").val(dallyObject[website]["resetHours"]).focus().blur();
     })
   });
 
@@ -140,8 +150,8 @@ $(function() {
   $("div.activate-button").on("click", function() {
     if (isSentenceFilled($("div.block-sentence"))) {
       var website = $("input.block-input-website").val().trim();
-      var usageMinutes = $("input.block-input-minutes").val().trim();
-      var resetHours = $("input.block-input-hours").val().trim();
+      var usageMinutes = $("input.block-input-unblock-time").val().trim();
+      var resetHours = $("input.block-input-block-time").val().trim();
       var setObject = {};
       setObject[website] = {"usageMinutes": usageMinutes,
                             "resetHours": resetHours,

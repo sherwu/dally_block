@@ -145,6 +145,10 @@ html, body {
   letter-spacing: 1px;
 }
 
+.message-block {
+  background-color: #F2AC35; /*orange*/
+  color: #FFF;
+}
 
 /* =========================
  * STYLING FOR CURRENT BLOCK
