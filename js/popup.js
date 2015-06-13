@@ -121,8 +121,8 @@ $(function() {
     chrome.storage.sync.get(website, function(dallyObject) {
       var currentViewBlock = $("div.current-view-block");
       currentViewBlock.find("input.block-input-website").val(website);
-      currentViewBlock.find("input.block-input-unblock-time").val(dallyObject[website]["usageMinutes"]).focus().blur();
-      currentViewBlock.find("input.block-input-block-time").val(dallyObject[website]["resetHours"]).focus().blur();
+      currentViewBlock.find("input.block-input-minutes").val(dallyObject[website]["usageMinutes"]).focus().blur();
+      currentViewBlock.find("input.block-input-hours").val(dallyObject[website]["resetHours"]).focus().blur();
     })
   });
 
@@ -152,8 +152,8 @@ $(function() {
   $("div.activate-button").on("click", function() {
     if (isSentenceFilled($("div.block-sentence"))) {
       var website = $("input.block-input-website").val().trim();
-      var usageMinutes = $("input.block-input-unblock-time").val().trim();
-      var resetHours = $("input.block-input-block-time").val().trim();
+      var usageMinutes = $("input.block-input-minutes").val().trim();
+      var resetHours = $("input.block-input-hours").val().trim();
       var setObject = {};
       setObject[website] = {"usageMinutes": usageMinutes,
                             "resetHours": resetHours,
